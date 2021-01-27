@@ -1,4 +1,10 @@
 package day04;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
 /**
  * 完成修改昵称工作
  *
@@ -19,7 +25,4 @@ package day04;
  *
  */
 public class Test02 {
-    public static void main(String[] args) {
-
-    }
 }

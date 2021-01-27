@@ -1,6 +1,7 @@
 package day04;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 /**
  * 改正下面程序的错误
@@ -21,18 +22,22 @@ import java.io.IOException;
  */
 public class Test01 {
     public static void main(String[] args) throws IOException {
-//		RandomAccessFile src = new RandomAccessFile("./test.txt","r");
-//			RandomAccessFile desc = new RandomAccessFile("./test_cp.txt","r");
-//
-//			int len;
-//	byte[] data = new byte[1024*10];
-//
-//while((len = src.read())!=-1) {}
-//			desc.write(data);
-//
-//				System.err.println("复制完毕!");
-//src.close();
-//desc.close();
+		//没有导包RAF
+        RandomAccessFile src = new RandomAccessFile("./test.txt","r");
+      //RandomAccessFile desc = new RandomAccessFile("./test_cp.txt","r");要写成"rw"！！
+        RandomAccessFile desc = new RandomAccessFile("./test_cp.txt","rw");
+
+			int len;
+	byte[] data = new byte[1024*10];
+        long start =System.currentTimeMillis();
+while((len = src.read(data))!=-1) {
+    desc.write(data, 0, len);
+}
+        long end =System.currentTimeMillis();
+				//System.err.println("复制完毕!"); 应该写成System.out.println();
+        System.out.println("复制完毕!耗时"+(end-start)+"ms");
+src.close();
+desc.close();
     }
 
 }
