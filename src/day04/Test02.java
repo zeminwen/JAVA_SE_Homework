@@ -1,4 +1,11 @@
 package day04;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * 完成修改昵称工作
  *
@@ -19,7 +26,34 @@ package day04;
  *
  */
 public class Test02 {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        RandomAccessFile raf=new RandomAccessFile("user.dat","rw");
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("请输入用户名");
+        String username=scanner.nextLine();
+        System.out.println("请输入新昵称");
+        String nickname=scanner.nextLine();
+        boolean update=false;
+        for(int i=0;i<raf.length()/100;i++){
+            byte[] data=new byte[32];
+            raf.seek(100*i);//指针定位到每个用户名开头的位置
+            raf.read(data);
+            String orusername=new String(data,"utf-8").trim();
+            if (username.equals(orusername)) {
+                raf.seek(i * 100 + 64);//指针定位到每个昵称开头的位置
+                data = nickname.getBytes("UTF-8");
+                data = Arrays.copyOf(data, 32);
+                raf.write(data);
+                update=true;
+                break;
+            }
+        }
+        if (update) {
+            System.out.println("昵称已修改成：" + nickname);
+        }else {
+            System.out.println("查无此人");
+        }
+        raf.close();
     }
 }
+
